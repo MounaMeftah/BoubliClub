@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boubli Club - Création de Contenu & Événements</title>
+    <link rel="icon" type="image/jpeg" href="Logo.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="Logo.jpg">
+    <link rel="apple-touch-icon" href="Logo.jpg">
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --dark-red: #991b1b;
+            --bg-light: #ffffff;
+            --bg-dark: #0a0a0a;
+            --text-light: #1f2937;
+            --text-dark: #f9fafb;
+            --accent-light: #fef2f2;
+            --accent-dark: #1f1f1f;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-red);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-red);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-red);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: inherit;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mobile-menu ul li {
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu ul li:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu ul li a {
+            display: block;
+            padding: 1rem;
+            text-decoration: none;
+            color: inherit;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu ul li a:hover {
+            background: var(--accent-dark);
+            color: var(--primary-red);
+            padding-left: 1.5rem;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            height: 90vh;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-red);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-red);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 4rem 2rem;
+            background: var(--accent-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: #1f1f1f;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Section Générique */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-red);
+        }
+
+        /* Countdown */
+        .countdown {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1f1f1f 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .countdown h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            background: #1f1f1f;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        /* Video Gallery */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: #1f1f1f;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(220, 38, 38, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .video-thumbnail:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(220, 38, 38, 1);
+        }
+
+        /* Video Modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            padding: 60px 20px 20px 20px;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-modal video {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            display: block;
+        }
+
+        .video-modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10001;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.5);
+        }
+
+        .video-modal-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: var(--dark-red);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.7);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-views {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Events */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            background: #1f1f1f;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-date {
+            background: var(--primary-red);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-red);
+        }
+
+        .event-description {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 1rem;
+            border: 2px solid #404040;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: #1f1f1f;
+            color: var(--text-dark);
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--accent-dark);
+            border-radius: 15px;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--primary-red);
+        }
+
+        /* Alert Messages */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .alert-error {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f1f1f;
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary-red);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .social-links a {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 1.8rem;
+            overflow: hidden;
+        }
+
+        .social-links a img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .social-links a.youtube {
+            background: #FF0000;
+        }
+
+        .social-links a.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-links a.facebook {
+            background: #1877F2;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-section {
+            background: var(--accent-dark);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .social-section h3 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 2rem;
+        }
+
+        .social-section .social-links {
+            justify-content: center;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--primary-red);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 2rem auto 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--primary-red);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .logo-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            .video-modal {
+                padding: 80px 10px 10px 10px;
+            }
+
+            .video-modal-content {
+                width: 95%;
+                max-height: 70vh;
+            }
+
+            .video-modal video {
+                max-height: 70vh;
+            }
+
+            .video-modal-close {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                right: 15px;
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                height: 70vh;
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+
+            .countdown h2 {
+                font-size: 1.5rem;
+            }
+
+            .countdown-timer {
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                padding: 1rem 1.2rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .countdown-label {
+                font-size: 0.75rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+
+            .about-content,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image {
+                height: 250px;
+                font-size: 3rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .team-image {
+                height: 200px;
+                font-size: 2.5rem;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .event-card {
+                margin: 0;
+            }
+
+            .event-title {
+                font-size: 1.3rem;
+            }
+
+            .contact-form,
+            .contact-info {
+                padding: 0;
+            }
+
+            .info-item {
+                padding: 1rem;
+            }
+
+            .info-icon {
+                font-size: 1.5rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            footer {
+                padding: 2rem 1rem;
+            }
+
+            .social-links {
+                font-size: 1.3rem;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .countdown-item {
+                padding: 0.8rem 1rem;
+            }
+
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Page Content */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo" onclick="showPage('home')">
+                <img src="Logo.jpg" alt="Boubli Club Logo" class="logo-image">
+                Boubli Club
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showPage('home')">Accueil</a></li>
+                <li><a href="#" onclick="showPage('about')">À Propos</a></li>
+                <li><a href="#" onclick="showPage('videos')">Vidéos</a></li>
+                <li><a href="#" onclick="showPage('events')">Événements</a></li>
+                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#" onclick="showPage('home'); closeMobileMenu()">Accueil</a></li>
+                <li><a href="#" onclick="showPage('about'); closeMobileMenu()">À Propos</a></li>
+                <li><a href="#" onclick="showPage('videos'); closeMobileMenu()">Vidéos</a></li>
+                <li><a href="#" onclick="showPage('events'); closeMobileMenu()">Événements</a></li>
+                <li><a href="#" onclick="showPage('contact'); closeMobileMenu()">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+        <div class="video-modal-content">
+            <video id="modalVideo" controls>
+                <source src="" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home" class="page-content active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in">Bienvenue au Boubli Club</h1>
+                <p class="fade-in">Créateurs de Contenu Passionnés | Organisateurs d'Événements Inoubliables</p>
+                <div class="cta-buttons fade-in">
+                    <button class="btn btn-primary" onclick="showPage('videos')">Voir nos Vidéos</button>
+                    <button class="btn btn-secondary" onclick="showPage('events')">Nos Événements</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <div class="stat-number">120+</div>
+                    <div class="stat-label">Vidéos Publiées</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">45+</div>
+                    <div class="stat-label">Événements Organisés</div>
+                </div>
+                <div class="stat-card fade-in">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Membres Actifs</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Media Section -->
+        <section style="padding: 2rem;">
+            <div class="container">
+                <div class="social-section">
+                    <h3>Suivez-nous</h3>
+                    <p style="margin-bottom: 2rem; opacity: 0.9;">Rejoignez notre communauté sur les réseaux sociaux</p>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/results?search_query=boubli+club" target="_blank" class="youtube" title="YouTube">
+                            <img src="Youtube.jpg" alt="YouTube">
+                        </a>
+                        <a href="https://www.instagram.com/boubli.club/" target="_blank" class="instagram" title="Instagram">
+                            <img src="Instagramme.jpg" alt="Instagram">
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=100087931522321" target="_blank" class="facebook" title="Facebook">
+                            <img src="Facebook.jpg" alt="Facebook">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-content">
+        <section style="margin-top: 100px;">
+            <div class="container">
+                <h2 class="section-title">À Propos du Boubli Club</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Notre Histoire</h3>
+                        <p>Fondé en 2020, le Boubli Club est né de la passion d'un groupe d'étudiants pour la création de contenu vidéo et l'organisation d'événements mémorables.</p>
+                        <p>Aujourd'hui, nous sommes devenus l'un des clubs universitaires les plus dynamiques, avec une communauté engagée et créative.</p>
+                        <h3>Notre Mission</h3>
+                        <p>Former la prochaine génération de créateurs de contenu tout en créant des souvenirs inoubliables à travers des événements innovants et rassembleurs.</p>
+                    </div>
+                    <div class="about-image">
+                        <video autoplay muted loop playsinline>
+                            <source src="Video.mp4" type="video/mp4">
+                            🎥
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Notre Équipe</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-image">👨‍💼</div>
+                        <div class="team-info">
+                            <div class="team-name">Ahmed Ben Ali</div>
+                            <div class="team-role">Président</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">👩‍💼</div>
+                        <div class="team-info">
+                            <div class="team-name">Sara Trabelsi</div>
+                            <div class="team-role">Responsable Contenu</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">👨‍🎨</div>
+                        <div class="team-info">
+                            <div class="team-name">Youssef Mejri</div>
+                            <div class="team-role">Designer Graphique</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-image">👩‍🎬</div>
+                        <div class="team-info">
+                            <div class="team-name">Leila Khedher</div>
+                            <div class="team-role">Réalisatrice</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Videos Page -->
+    <div id="videos" class="page-content">
+        <section style="margin-top: 100px;">
+            <div class="container">
+                <h2 class="section-title">Nos Dernières Vidéos</h2>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-thumbnail" onclick="openVideoModal('video1.mp4')">
+                            <img src="Photo1.jpg" alt="Video 1">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Behind The Scenes - Tournage Campus</div>
+                            <div class="video-views">25K vues • Il y a 2 jours</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-thumbnail" onclick="openVideoModal('video2.mp4')">
+                            <img src="Photo2.jpg" alt="Video 2">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Tutoriel Montage Vidéo pour Débutants</div>
+                            <div class="video-views">18K vues • Il y a 1 semaine</div>
+                        </div>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-thumbnail" onclick="openVideoModal('video3.mp4')">
+                            <img src="Photo3.jpg" alt="Video 3">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">Recap Événement Gala 2024</div>
+                            <div class="video-views">42K vues • Il y a 2 semaines</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Events Page -->
+    <div id="events" class="page-content">
+        <section style="margin-top: 100px;">
+            <div class="container">
+                <!-- Countdown -->
+                <div class="countdown" style="border-radius: 20px; margin-bottom: 4rem;">
+                    <h2>⏰ Prochain Événement</h2>
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="days">15</span>
+                            <span class="countdown-label">Jours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">08</span>
+                            <span class="countdown-label">Heures</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">42</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">33</span>
+                            <span class="countdown-label">Secondes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Événements à Venir</h2>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="event-date">25 OCT 2025</div>
+                        <div class="event-content">
+                            <h3 class="event-title">Workshop Création de Contenu</h3>
+                            <p class="event-description">Apprenez les secrets d'une vidéo virale avec nos experts. Une journée complète dédiée aux techniques de création de contenu professionnel.</p>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">15 NOV 2025</div>
+                        <div class="event-content">
+                            <h3 class="event-title">Gala Annuel Boubli</h3>
+                            <p class="event-description">Une soirée inoubliable pour célébrer nos réussites de l'année et découvrir les meilleurs moments du club.</p>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">05 DÉC 2025</div>
+                        <div class="event-content">
+                            <h3 class="event-title">Challenge 48h Film</h3>
+                            <p class="event-description">Créez un court-métrage en 48 heures chrono! Un défi intense pour tester vos compétences en équipe.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-content">
+        <section style="margin-top: 100px;">
+            <div class="container">
+                <h2 class="section-title">Contactez-Nous</h2>
+                <div class="contact-grid">
+                    <div class="contact-form">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--primary-red);">Envoyez-nous un Message</h3>
+                        
+                        <!-- Alert Messages -->
+                        <div id="successAlert" class="alert alert-success">
+                            ✅ Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
+                        </div>
+                        <div id="errorAlert" class="alert alert-error">
+                            ❌ Une erreur s'est produite. Veuillez réessayer.
+                        </div>
+                        
+                        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                            <div class="form-group">
+                                <label>Nom *</label>
+                                <input type="text" id="name" name="user_name" required placeholder="Votre nom">
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" id="email" name="email" required placeholder="votre.email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Sujet *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Sélectionner un sujet...</option>
+                                    <option>Question Générale</option>
+                                    <option>Partenariat</option>
+                                    <option>Collaboration</option>
+                                    <option>Presse & Médias</option>
+                                    <option>Support Technique</option>
+                                    <option>Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Message *</label>
+                                <textarea name="message" id="message" required placeholder="Votre message..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">
+                                Envoyer ✉️
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <h3 style="margin-bottom: 1.5rem; color: var(--primary-red);">Informations de Contact</h3>
+                        <div class="info-item">
+                            <div class="info-icon">📍</div>
+                            <div>
+                                <strong>Adresse</strong><br>
+                                Campus Universitaire<br>
+                                Sousse, Tunisie
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📧</div>
+                            <div>
+                                <strong>Email</strong><br>
+                                contact@boubliclub.tn
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">📱</div>
+                            <div>
+                                <strong>Téléphone</strong><br>
+                                +216 XX XXX XXX
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">🕐</div>
+                            <div>
+                                <strong>Horaires</strong><br>
+                                Lun - Ven: 9h - 18h<br>
+                                Sam: 10h - 14h
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div style="margin-top: 5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                    <h3 style="text-align: center; font-size: 2rem; margin-bottom: 2rem; color: var(--primary-red);">Questions Fréquentes</h3>
+                    <div class="faq-container">
+                        <div class="info-item" style="flex-direction: column; align-items: flex-start; margin-bottom: 1rem;">
+                            <strong style="color: var(--primary-red); margin-bottom: 0.5rem;">Comment rejoindre le club ?</strong>
+                            <p>Remplissez simplement notre formulaire d'adhésion en ligne. Notre équipe vous contactera dans les 48h pour un entretien.</p>
+                        </div>
+                        <div class="info-item" style="flex-direction: column; align-items: flex-start; margin-bottom: 1rem;">
+                            <strong style="color: var(--primary-red); margin-bottom: 0.5rem;">Y a-t-il des frais d'adhésion ?</strong>
+                            <p>L'adhésion annuelle est de 50 DT, donnant accès à tout le matériel, formations et événements exclusifs.</p>
+                        </div>
+                        <div class="info-item" style="flex-direction: column; align-items: flex-start; margin-bottom: 1rem;">
+                            <strong style="color: var(--primary-red); margin-bottom: 0.5rem;">Dois-je avoir de l'expérience ?</strong>
+                            <p>Pas du tout ! Nous accueillons tous les niveaux. Des formations débutants sont organisées régulièrement.</p>
+                        </div>
+                        <div class="info-item" style="flex-direction: column; align-items: flex-start; margin-bottom: 1rem;">
+                            <strong style="color: var(--primary-red); margin-bottom: 0.5rem;">Combien de temps s'engager ?</strong>
+                            <p>Nous recommandons 6-8h par semaine, mais c'est flexible selon vos disponibilités et projets.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Boubli Club</h3>
+                <p>Le club universitaire de référence pour la création de contenu vidéo et l'organisation d'événements mémorables.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="showPage('home')">Accueil</a></li>
+                    <li><a href="#" onclick="showPage('about')">À Propos</a></li>
+                    <li><a href="#" onclick="showPage('videos')">Vidéos</a></li>
+                    <li><a href="#" onclick="showPage('events')">Événements</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Ressources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Kit Médias</a></li>
+                    <li><a href="#">Partenaires</a></li>
+                    <li><a href="#">Carrières</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul class="footer-links">
+                    <li>📧 contact@boubliclub.tn</li>
+                    <li>📱 +216 XX XXX XXX</li>
+                    <li>📍 Sousse, Tunisie</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Boubli Club. Tous droits réservés. Fait avec ❤️ par l'équipe Boubli</p>
+        </div>
+    </footer>
+
+    <script>
+    
+
+        // Page Navigation
+        function showPage(pageName) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageName).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(event.target) && 
+                !menuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const eventDate = new Date('2025-10-28T18:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Contact Form Handler with EmailJS
+      // Initialize EmailJS ONCE au chargement de la page (en dehors de la fonction)
+(function() {
+    emailjs.init("CDN3p6l0QoJvNWnI0"); // Remplace par ta clé publique (ex: "JwGO9-r_kz-j9gc4")
+})();
+
+// Contact Form Handler
+function handleContactSubmit(event) {
+    event.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const successAlert = document.getElementById('successAlert');
+    const errorAlert = document.getElementById('errorAlert');
+    
+    // Hide alerts
+    successAlert.classList.remove('show');
+    errorAlert.classList.remove('show');
+    
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours... ⏳';
+
+    // ⚠️ Mauvais nom de variable : il faut "email" au lieu de "message"
+    const params = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value, // ← corrige ici
+        message: document.getElementById("message").value // ← ajoute si ton formulaire a un champ "message"
+    };
+
+    // Envoi via EmailJS
+    emailjs.send('service_qeyag2o','template_smzv04f', params)
+        .then(function(response) {
+            console.log('✅ SUCCESS!', response.status, response.text);
+            
+            // Show success message
+            successAlert.classList.add('show');
+            
+            // Reset form
+            event.target.reset();
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Envoyer ✉️';
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successAlert.classList.remove('show');
+            }, 5000);
+            
+        }, function(error) {
+            console.error('❌ FAILED...', error);
+            
+            // Show error message
+            errorAlert.classList.add('show');
+            
+            // Reset button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Envoyer ✉️';
+            
+            // Hide error message after 5 seconds
+            setTimeout(() => {
+                errorAlert.classList.remove('show');
+            }, 5000);
+        });
+}
+
+        // Video Modal Functions
+        function openVideoModal(videoSrc) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            video.src = videoSrc;
+            modal.classList.add('active');
+            video.play();
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            modal.classList.remove('active');
+            video.pause();
+            video.currentTime = 0;
+            video.src = '';
+        }
+
+        // Close modal when clicking outside video
+        document.getElementById('videoModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeVideoModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeVideoModal();
+            }
+        });
+
+        // Smooth scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-card, .team-card, .video-card, .event-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
