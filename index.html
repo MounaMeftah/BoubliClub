@@ -182,11 +182,10 @@
             }
         }
 
-        /* Hero Section */
+        /* Hero Section with Slider */
         .hero {
             margin-top: 80px;
             height: 90vh;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -195,10 +194,52 @@
             color: white;
         }
 
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img,
+        .hero-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.7) 0%, rgba(153, 27, 27, 0.7) 100%);
+            z-index: 1;
+        }
+
         .hero-content {
             text-align: center;
             z-index: 2;
             animation: fadeInUp 1s ease;
+            transform: translateY(0);
+            transition: transform 0.3s ease-out;
         }
 
         .hero h1 {
@@ -259,7 +300,7 @@
             color: var(--primary-red);
         }
 
-        /* Stats Section */
+        /* Stats Section with Animated Counters */
         .stats {
             padding: 4rem 2rem;
             background: var(--accent-dark);
@@ -293,6 +334,10 @@
             margin-bottom: 0.5rem;
         }
 
+        .stat-number.counting {
+            font-variant-numeric: tabular-nums;
+        }
+
         .stat-label {
             font-size: 1.1rem;
             opacity: 0.8;
@@ -308,6 +353,107 @@
             font-size: 2.5rem;
             margin-bottom: 3rem;
             color: var(--primary-red);
+        }
+
+        /* Parallax Sections */
+        .parallax-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: -50%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.1s ease-out;
+            z-index: -1;
+        }
+
+        /* News Section */
+        .news-section {
+            background: var(--accent-dark);
+            padding: 5rem 2rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: #1f1f1f;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image img,
+        .news-image video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-date {
+            color: var(--primary-red);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .news-description {
+            opacity: 0.8;
+            line-height: 1.6;
         }
 
         /* Countdown */
@@ -833,52 +979,6 @@
             opacity: 0.7;
         }
 
-        /* Newsletter */
-        .newsletter {
-            background: var(--primary-red);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .newsletter h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
-            max-width: 600px;
-            margin: 2rem auto 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            min-width: 250px;
-            padding: 1rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-        }
-
-        .newsletter-form button {
-            padding: 1rem 2rem;
-            background: white;
-            color: var(--primary-red);
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .newsletter-form button:hover {
-            transform: scale(1.05);
-        }
-
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -1034,6 +1134,11 @@
                 gap: 1.5rem;
             }
 
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
             .events-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -1157,9 +1262,26 @@
 
     <!-- Home Page -->
     <div id="home" class="page-content active">
-        <!-- Hero Section -->
+        <!-- Hero Section with Slider -->
         <section class="hero">
-            <div class="hero-content">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <video autoplay muted loop playsinline>
+                        <source src="Video.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="hero-slide">
+                    <img src="Photo1.jpg" alt="Boubli Club">
+                </div>
+                <div class="hero-slide">
+                    <img src="Photo2.jpg" alt="Boubli Club">
+                </div>
+                <div class="hero-slide">
+                    <img src="Photo3.jpg" alt="Boubli Club">
+                </div>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content" id="heroContent">
                 <h1 class="fade-in">Bienvenue au Boubli Club</h1>
                 <p class="fade-in">Créateurs de Contenu Passionnés | Organisateurs d'Événements Inoubliables</p>
                 <div class="cta-buttons fade-in">
@@ -1169,20 +1291,67 @@
             </div>
         </section>
 
-        <!-- Stats -->
+        <!-- Stats with Animation -->
         <section class="stats">
             <div class="stats-grid">
                 <div class="stat-card fade-in">
-                    <div class="stat-number">120+</div>
+                    <div class="stat-number counting" data-target="120">0</div>
                     <div class="stat-label">Vidéos Publiées</div>
                 </div>
                 <div class="stat-card fade-in">
-                    <div class="stat-number">45+</div>
+                    <div class="stat-number counting" data-target="45">0</div>
                     <div class="stat-label">Événements Organisés</div>
                 </div>
                 <div class="stat-card fade-in">
-                    <div class="stat-number">200+</div>
+                    <div class="stat-number counting" data-target="200">0</div>
                     <div class="stat-label">Membres Actifs</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="news-section parallax-section">
+            <div class="parallax-bg" style="background: linear-gradient(135deg, #0a0a0a 0%, #1f1f1f 100%);"></div>
+            <div class="container">
+                <h2 class="section-title">Nouveautés</h2>
+                <div class="news-grid">
+                    <div class="news-card" onclick="showPage('about')">
+                        <div class="news-image">
+                            <video autoplay muted loop playsinline>
+                                <source src="Video.mp4" type="video/mp4">
+                            </video>
+                            <span class="news-badge">Nouveau</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date">📅 15 Octobre 2025</div>
+                            <h3 class="news-title">Notre Histoire - Boubli Club 2025</h3>
+                            <p class="news-description">Découvrez comment nous sommes devenus l'un des clubs universitaires les plus dynamiques de Tunisie.</p>
+                        </div>
+                    </div>
+
+                    <div class="news-card" onclick="showPage('videos')">
+                        <div class="news-image">
+                            <img src="Photo1.jpg" alt="Vidéo">
+                            <span class="news-badge">Tendance</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date">📅 12 Octobre 2025</div>
+                            <h3 class="news-title">Nouvelle Série de Tutoriels</h3>
+                            <p class="news-description">Apprenez à créer du contenu professionnel avec nos tutoriels exclusifs de montage vidéo.</p>
+                        </div>
+                    </div>
+
+                    <div class="news-card" onclick="showPage('events')">
+                        <div class="news-image">
+                            <img src="Photo3.jpg" alt="Événement">
+                            <span class="news-badge">Bientôt</span>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date">📅 25 Octobre 2025</div>
+                            <h3 class="news-title">Workshop Création de Contenu</h3>
+                            <p class="news-description">Un événement exclusif pour apprendre les secrets d'une vidéo virale. Places limitées!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1416,13 +1585,25 @@
 
                     <div class="contact-info">
                         <h3 style="margin-bottom: 1.5rem; color: var(--primary-red);">Informations de Contact</h3>
-                        <div class="info-item">
-                            <div class="info-icon">📍</div>
-                            <div>
-                                <strong>Adresse</strong><br>
-                                Campus Universitaire<br>
-                                Sousse, Tunisie
+                        <div class="info-item" style="flex-direction: column; align-items: flex-start;">
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div class="info-icon">📍</div>
+                                <strong>Adresse</strong>
                             </div>
+                            <div style="width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3183.9473409894895!2d10.06233403315863!3d36.81681413942888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd34c5e12e6c6d%3A0xb2f81a9e3a7851e0!2sInstitut%20Sup%C3%A9rieur%20des%20Arts%20Multim%C3%A9dias%20de%20la%20Manouba%20(ISAMM)!5e0!3m2!1sfr!2stn!4v1739612345678!5m2!1sfr!2stn" 
+                                    width="100%" 
+                                    height="250" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                            <p style="margin-top: 0.5rem; opacity: 0.8; font-size: 0.9rem;">
+                                ISAMM, Campus Universitaire de la Manouba, 2010 Manouba, Tunisie
+                            </p>
                         </div>
                         <div class="info-item">
                             <div class="info-icon">📧</div>
@@ -1505,7 +1686,7 @@
                 <ul class="footer-links">
                     <li>📧 contact@boubliclub.tn</li>
                     <li>📱 +216 XX XXX XXX</li>
-                    <li>📍 Sousse, Tunisie</li>
+                    <li>📍 Manouba, Tunisie</li>
                 </ul>
             </div>
         </div>
@@ -1515,7 +1696,77 @@
     </footer>
 
     <script>
-    
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("CDN3p6l0QoJvNWnI0");
+        })();
+
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        // Change slide every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // Hero Parallax
+            const heroContent = document.getElementById('heroContent');
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            // Parallax backgrounds
+            const parallaxBgs = document.querySelectorAll('.parallax-bg');
+            parallaxBgs.forEach(bg => {
+                const speed = 0.3;
+                const rect = bg.parentElement.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    bg.style.transform = `translateY(${(rect.top - window.innerHeight) * speed}px)`;
+                }
+            });
+        });
+
+        // Animated Counters for Stats
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for counters
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    animateCounter(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observe all stat numbers
+        document.querySelectorAll('.stat-number.counting').forEach(counter => {
+            counterObserver.observe(counter);
+        });
 
         // Page Navigation
         function showPage(pageName) {
@@ -1571,74 +1822,64 @@
         updateCountdown();
 
         // Contact Form Handler with EmailJS
-      // Initialize EmailJS ONCE au chargement de la page (en dehors de la fonction)
-(function() {
-    emailjs.init("CDN3p6l0QoJvNWnI0"); // Remplace par ta clé publique (ex: "JwGO9-r_kz-j9gc4")
-})();
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+            
+            // Hide alerts
+            successAlert.classList.remove('show');
+            errorAlert.classList.remove('show');
+            
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours... ⏳';
 
-// Contact Form Handler
-function handleContactSubmit(event) {
-    event.preventDefault();
-    
-    const submitBtn = document.getElementById('submitBtn');
-    const successAlert = document.getElementById('successAlert');
-    const errorAlert = document.getElementById('errorAlert');
-    
-    // Hide alerts
-    successAlert.classList.remove('show');
-    errorAlert.classList.remove('show');
-    
-    // Disable button and show loading
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Envoi en cours... ⏳';
-    const subject = document.getElementById("subject").value;
+            const params = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value
+            };
 
-    // ⚠️ Mauvais nom de variable : il faut "email" au lieu de "message"
-    const params = {
-        
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value, 
-        subject: document.getElementById("subject").value,// ← corrige ici
-        message: document.getElementById("message").value // ← ajoute si ton formulaire a un champ "message"
-        
-    };
-
-    // Envoi via EmailJS
-    emailjs.send('service_qeyag2o','template_smzv04f', params)
-        .then(function(response) {
-            console.log('✅ SUCCESS!', response.status, response.text);
-            
-            // Show success message
-            successAlert.classList.add('show');
-            
-            // Reset form
-            event.target.reset();
-            
-            // Reset button
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer ✉️';
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successAlert.classList.remove('show');
-            }, 5000);
-            
-        }, function(error) {
-            console.error('❌ FAILED...', error);
-            
-            // Show error message
-            errorAlert.classList.add('show');
-            
-            // Reset button
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Envoyer ✉️';
-            
-            // Hide error message after 5 seconds
-            setTimeout(() => {
-                errorAlert.classList.remove('show');
-            }, 5000);
-        });
-}
+            // Send via EmailJS
+            emailjs.send('service_qeyag2o', 'template_smzv04f', params)
+                .then(function(response) {
+                    console.log('✅ SUCCESS!', response.status, response.text);
+                    
+                    // Show success message
+                    successAlert.classList.add('show');
+                    
+                    // Reset form
+                    event.target.reset();
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer ✉️';
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successAlert.classList.remove('show');
+                    }, 5000);
+                    
+                }, function(error) {
+                    console.error('❌ FAILED...', error);
+                    
+                    // Show error message
+                    errorAlert.classList.add('show');
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Envoyer ✉️';
+                    
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        errorAlert.classList.remove('show');
+                    }, 5000);
+                });
+        }
 
         // Video Modal Functions
         function openVideoModal(videoSrc) {
@@ -1687,7 +1928,7 @@ function handleContactSubmit(event) {
             });
         }, observerOptions);
 
-        document.querySelectorAll('.stat-card, .team-card, .video-card, .event-card').forEach(el => {
+        document.querySelectorAll('.stat-card, .team-card, .video-card, .event-card, .news-card').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
             el.style.transition = 'all 0.6s ease';
