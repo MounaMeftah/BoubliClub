@@ -25,6 +25,12 @@
                 <li><a href="#" onclick="showPage('about')">About</a></li>
                 <li><a href="#" onclick="showPage('videos')">Videos</a></li>
                 <li><a href="#" onclick="showPage('events')">Events</a></li>
+                <li class="recruitment-menu-item">
+                    <a href="#" onclick="showPage('recruitment')">
+                        Recruitment
+                        <span class="new-badge">NEW</span>
+                    </a>
+                </li>
                 <li><a href="#" onclick="showPage('contact')">Contact</a></li>
             </ul>
             <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
@@ -35,6 +41,12 @@
                 <li><a href="#" onclick="showPage('about'); closeMobileMenu()">About</a></li>
                 <li><a href="#" onclick="showPage('videos'); closeMobileMenu()">Videos</a></li>
                 <li><a href="#" onclick="showPage('events'); closeMobileMenu()">Events</a></li>
+                <li class="recruitment-menu-item">
+                    <a href="#" onclick="showPage('recruitment'); closeMobileMenu()">
+                        Recruitment
+                        <span class="new-badge">NEW</span>
+                    </a>
+                </li>
                 <li><a href="#" onclick="showPage('contact'); closeMobileMenu()">Contact</a></li>
             </ul>
         </div>
@@ -97,17 +109,17 @@
             <div class="container">
                 <h2 class="section-title">Latest News</h2>
                 <div class="news-grid">
-                    <div class="news-card" onclick="showPage('about')" data-news-index="0">
+                    <div class="news-card" onclick="showPage('recruitment')" data-news-index="0">
                         <div class="news-image">
                             <video muted loop playsinline>
                                 <source src="Video.mp4" type="video/mp4">
                             </video>
-                            <span class="news-badge">New</span>
+                            <span class="news-badge">Urgent</span>
                         </div>
                         <div class="news-content">
-                            <div class="news-date">📅 October 15, 2025</div>
-                            <h3 class="news-title">Our Story - Boubli Club 2025</h3>
-                            <p class="news-description">Discover how we became one of the most dynamic university clubs in Tunisia.</p>
+                            <div class="news-date">📅 November 1-30, 2025</div>
+                            <h3 class="news-title">Recruitment Open - Join Us!</h3>
+                            <p class="news-description">We are recruiting new members! Apply now and become part of our creative family.</p>
                         </div>
                     </div>
 
@@ -272,7 +284,7 @@
             <div class="container">
                 <!-- Countdown -->
                 <div class="countdown" style="border-radius: 20px; margin-bottom: 4rem;">
-                    <h2>⏰ Next Event</h2>
+                    <h2>Next Event</h2>
                     <div class="countdown-timer">
                         <div class="countdown-item">
                             <span class="countdown-number" id="days">15</span>
@@ -314,6 +326,258 @@
                         <div class="event-content">
                             <h3 class="event-title">48-Hour Film Challenge</h3>
                             <p class="event-description">Create a short film in 48 hours! An intense challenge to test your team skills.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Recruitment Page -->
+    <div id="recruitment" class="page-content">
+        <section style="margin-top: 100px;">
+            <div class="container">
+                <!-- Recruitment Banner -->
+                <div class="recruitment-banner">
+                    <div class="banner-content">
+                        <h1>Join Boubli Club - October 2025 Recruitment</h1>
+                        <p>We are looking for passionate and creative members to join our team!</p>
+                        <div class="recruitment-dates">
+                            <span>📅 Recruitment Period: November 1-30, 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Application Form</h2>
+                
+                <!-- Alert Messages for Recruitment -->
+                <div id="recruitmentSuccessAlert" class="alert alert-success">
+                    ✅ Application submitted successfully! We will contact you soon.
+                </div>
+                <div id="recruitmentErrorAlert" class="alert alert-error">
+                    ❌ An error occurred. Please try again.
+                </div>
+
+                <!-- Recruitment Form -->
+                <div class="recruitment-form-container">
+                    <form id="recruitmentForm" onsubmit="handleRecruitmentSubmit(event)">
+                         <div style="margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 2px solid #404040;">
+                            <h3 style="color: var(--primary-red); margin-bottom: 2rem; text-align: center;">Personal Information</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required placeholder="Your first name">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required placeholder="Your last name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" id="recruitEmail" name="email" required placeholder="your.email@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="+216 XX XXX XXX">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Class/Year *</label>
+                                <select id="class" name="class" required>
+                                    <option value="">Select your class...</option>
+                                    <option value="1st Year License">1st Year License</option>
+                                    <option value="2nd Year License">2nd Year License</option>
+                                    <option value="3rd Year License">3rd Year License</option>
+                                    <option value="1st Year Master">1st Year Master</option>
+                                    <option value="2nd Year Master">2nd Year Master</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date of Birth *</label>
+                                <input type="date" id="birthDate" name="birthDate" required>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Additional Questions Section -->
+                        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #404040;">
+                            <h3 style="color: var(--primary-red); margin-bottom: 2rem; text-align: center;">Audiovisual Production Questions</h3>
+                        </div>
+                        <div class="form-group">
+                            <label>Why did you choose Boubli Club? *</label>
+                            <textarea id="whyChoose" name="whyChoose" required placeholder="Tell us what motivates you to join our club..." rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What can you bring to Boubli Club? *</label>
+                            <textarea id="whatBring" name="whatBring" required placeholder="Share your skills, experiences, and how you can contribute to our club..." rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Areas of Interest (Select all that apply) *</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Video Production"> Video Production
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Photography"> Photography
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Video Editing"> Video Editing
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Graphic Design"> Graphic Design
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Event Organization"> Event Organization
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Social Media Management"> Social Media Management
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Writing/Content Creation"> Writing/Content Creation
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="interests" value="Other"> Other
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>What interests you most about audiovisual production? *</label>
+                            <textarea id="avInterest" name="avInterest" required placeholder="Share what excites you about audiovisual production..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Do you have any experience in filming, editing, or photography? *</label>
+                            <textarea id="experience" name="experience" required placeholder="Describe your experience or mention if you're a beginner..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What software or tools are you familiar with? (e.g., Premiere Pro, Photoshop, etc.) *</label>
+                            <input type="text" id="software" name="software" required placeholder="List the software and tools you know">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Which role do you prefer in a project? *</label>
+                            <select id="preferredRole" name="preferredRole" required>
+                                <option value="">Select your preferred role...</option>
+                                <option value="Director">Director</option>
+                                <option value="Editor">Editor</option>
+                                <option value="Cameraman">Cameraman</option>
+                                <option value="Sound Designer">Sound Designer</option>
+                                <option value="Photographer">Photographer</option>
+                                <option value="Scriptwriter">Scriptwriter</option>
+                                <option value="Actor">Actor</option>
+                                <option value="Producer">Producer</option>
+                                <option value="Lighting Technician">Lighting Technician</option>
+                                <option value="Motion Graphics Designer">Motion Graphics Designer</option>
+                                <option value="Color Grader">Color Grader</option>
+                                <option value="Multiple Roles">Multiple Roles</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How do you handle teamwork and deadlines during a creative project? *</label>
+                            <textarea id="teamwork" name="teamwork" required placeholder="Tell us about your approach to collaboration and time management..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Can you describe a project you have worked on and what your role was? *</label>
+                            <textarea id="projectDescription" name="projectDescription" required placeholder="Describe a project you're proud of, or mention 'No prior projects' if you're a beginner..." rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What inspires your creativity? *</label>
+                            <textarea id="inspiration" name="inspiration" required placeholder="Share what drives your creative process..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How do you react to constructive criticism on your work? *</label>
+                            <textarea id="criticism" name="criticism" required placeholder="Tell us how you handle feedback..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What kind of audiovisual content do you enjoy creating the most? *</label>
+                            <input type="text" id="contentType" name="contentType" required placeholder="e.g., Short films, documentaries, music videos, vlogs, commercials...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>How often would you be available to participate in club activities and projects? *</label>
+                            <select id="availability" name="availability" required>
+                                <option value="">Select your availability...</option>
+                                <option value="Daily">Daily</option>
+                                <option value="Several times a week">Several times a week (3-5 days)</option>
+                                <option value="Once or twice a week">Once or twice a week</option>
+                                <option value="Weekends only">Weekends only</option>
+                                <option value="Flexible schedule">Flexible schedule</option>
+                                <option value="Limited availability">Limited availability</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Do you prefer working behind the camera or in front of it? Why? *</label>
+                            <textarea id="cameraPreference" name="cameraPreference" required placeholder="Share your preference and explain why..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What do you hope to learn by joining Boubli Club? *</label>
+                            <textarea id="learningGoals" name="learningGoals" required placeholder="Tell us about your learning objectives..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How do you stay updated on trends in filmmaking and audiovisual art? *</label>
+                            <textarea id="trendAwareness" name="trendAwareness" required placeholder="Share how you keep up with industry trends..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Have you ever participated in events, festivals, or competitions related to audiovisuals? *</label>
+                            <textarea id="eventsParticipation" name="eventsParticipation" required placeholder="List any events, festivals, or competitions you've participated in, or mention 'None yet'..." rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What makes you different from other candidates? *</label>
+                            <textarea id="uniqueness" name="uniqueness" required placeholder="Tell us what makes you stand out..." rows="4"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="recruitmentSubmitBtn">
+                            Submit Application 🚀
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Recruitment Info -->
+                <div class="recruitment-info-section">
+                    <h3>What to Expect Next?</h3>
+                    <div class="recruitment-steps">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Application Review</h4>
+                                <p>Our team will review your application within 48 hours.</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Interview</h4>
+                                <p>Selected candidates will be invited for a friendly interview.</p>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Welcome to the Team!</h4>
+                                <p>Join our creative family and start your journey with us.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,7 +659,7 @@
                             <div class="info-icon">📧</div>
                             <div>
                                 <strong>Email</strong><br>
-                                contact@boubliclub.tn
+                                boubli.club@gmail.com
                             </div>
                         </div>
                         <div class="info-item">
@@ -456,6 +720,7 @@
                     <li><a href="#" onclick="showPage('about')">About</a></li>
                     <li><a href="#" onclick="showPage('videos')">Videos</a></li>
                     <li><a href="#" onclick="showPage('events')">Events</a></li>
+                    <li><a href="#" onclick="showPage('recruitment')">Recruitment</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -470,7 +735,7 @@
             <div class="footer-section">
                 <h3>Contact</h3>
                 <ul class="footer-links">
-                    <li>📧 contact@boubliclub.tn</li>
+                    <li>📧 boubli.club@gmail.com</li>
                     <li>📱 +216 XX XXX XXX</li>
                     <li>📍 Manouba, Tunisia</li>
                 </ul>
