@@ -102,37 +102,6 @@ nav {
     width: 100%;
 }
 
-/* NEW Badge Styles */
-.recruitment-menu-item {
-    position: relative;
-}
-
-.new-badge {
-    position: absolute;
-    top: -8px;
-    right: -35px;
-    background: linear-gradient(135deg, #ff0844 0%, #ff6b00 100%);
-    color: white;
-    font-size: 0.65rem;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    animation: pulse 2s infinite;
-    box-shadow: 0 2px 10px rgba(255, 8, 68, 0.5);
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 2px 10px rgba(255, 8, 68, 0.5);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 4px 20px rgba(255, 8, 68, 0.8);
-    }
-}
-
 .mobile-menu-btn {
     display: none;
     background: none;
@@ -182,20 +151,12 @@ nav {
     font-weight: 500;
     font-size: 1.1rem;
     transition: all 0.3s;
-    position: relative;
 }
 
 .mobile-menu ul li a:hover {
     background: var(--accent-dark);
     color: var(--primary-red);
     padding-left: 1.5rem;
-}
-
-.mobile-menu .recruitment-menu-item .new-badge {
-    position: relative;
-    top: 0;
-    right: 0;
-    margin-left: 10px;
 }
 
 @keyframes slideDown {
@@ -805,65 +766,6 @@ section {
     opacity: 0.8;
 }
 
-/* Recruitment Section */
-.recruitment-banner {
-    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-    color: white;
-    padding: 4rem 2rem;
-    border-radius: 20px;
-    margin-bottom: 4rem;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(220, 38, 38, 0.3);
-    animation: slideInDown 0.8s ease;
-}
-
-@keyframes slideInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.banner-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-.banner-content p {
-    font-size: 1.2rem;
-    opacity: 0.95;
-    margin-bottom: 1.5rem;
-}
-
-.recruitment-dates {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-    font-weight: 600;
-}
-
-.recruitment-form-container {
-    max-width: 900px;
-    margin: 0 auto;
-    background: #1f1f1f;
-    padding: 3rem;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
 /* Contact Form */
 .contact-grid {
     display: grid;
@@ -914,36 +816,6 @@ section {
     min-height: 150px;
 }
 
-.checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-    background: #0a0a0a;
-    border-radius: 10px;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.checkbox-label:hover {
-    background: #2a2a2a;
-}
-
-.checkbox-label input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: var(--primary-red);
-}
-
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -962,62 +834,6 @@ section {
 .info-icon {
     font-size: 2rem;
     color: var(--primary-red);
-}
-
-/* Recruitment Info Section */
-.recruitment-info-section {
-    max-width: 1000px;
-    margin: 5rem auto 0;
-    text-align: center;
-}
-
-.recruitment-info-section h3 {
-    font-size: 2rem;
-    color: var(--primary-red);
-    margin-bottom: 3rem;
-}
-
-.recruitment-steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-.step-card {
-    background: #1f1f1f;
-    padding: 2rem;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s;
-}
-
-.step-card:hover {
-    transform: translateY(-10px);
-}
-
-.step-number {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0 auto 1.5rem;
-}
-
-.step-content h4 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: var(--primary-red);
-}
-
-.step-content p {
-    opacity: 0.8;
-    line-height: 1.6;
 }
 
 /* Alert Messages */
@@ -1364,41 +1180,6 @@ footer {
     .form-group select {
         font-size: 16px;
     }
-
-    /* Recruitment Responsive */
-    .recruitment-banner {
-        padding: 2rem 1rem;
-    }
-
-    .banner-content h1 {
-        font-size: 1.8rem;
-    }
-
-    .banner-content p {
-        font-size: 1rem;
-    }
-
-    .recruitment-dates {
-        font-size: 0.9rem;
-        padding: 0.8rem 1.5rem;
-    }
-
-    .recruitment-form-container {
-        padding: 1.5rem;
-    }
-
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .checkbox-group {
-        grid-template-columns: 1fr;
-    }
-
-    .recruitment-steps {
-        grid-template-columns: 1fr;
-    }
 }
 
 @media (max-width: 480px) {
@@ -1424,13 +1205,5 @@ footer {
 
     .section-title {
         font-size: 1.5rem;
-    }
-
-    .banner-content h1 {
-        font-size: 1.4rem;
-    }
-
-    .recruitment-form-container {
-        padding: 1rem;
     }
 }
