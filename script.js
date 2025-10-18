@@ -151,19 +151,49 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// Fonction pour afficher l'alerte en plein écran
+function showFullscreenAlert(message, isSuccess, duration = 5000) {
+    // Créer l'overlay en plein écran
+    const overlay = document.createElement('div');
+    overlay.className = 'fullscreen-alert-overlay';
+    overlay.innerHTML = `
+        <div class="fullscreen-alert-content ${isSuccess ? 'success' : 'error'}">
+            <div class="fullscreen-alert-icon">
+                ${isSuccess ? '✅' : '❌'}
+            </div>
+            <div class="fullscreen-alert-message">
+                ${message}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Scroll vers le haut
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Afficher l'overlay avec animation
+    setTimeout(() => {
+        overlay.classList.add('show');
+    }, 10);
+    
+    // Masquer l'overlay après la durée spécifiée
+    setTimeout(() => {
+        overlay.classList.remove('show');
+        setTimeout(() => {
+            overlay.remove();
+        }, 500);
+    }, duration);
+}
+
 // Contact Form Handler with EmailJS
 function handleContactSubmit(event) {
     event.preventDefault();
     
     const submitBtn = document.getElementById('submitBtn');
-    const successAlert = document.getElementById('successAlert');
-    const errorAlert = document.getElementById('errorAlert');
-    
-    successAlert.classList.remove('show');
-    errorAlert.classList.remove('show');
     
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending... ⏳';
+    submitBtn.textContent = 'Envoi en cours... ⏳';
 
     const params = {
         name: document.getElementById("name").value,
@@ -176,27 +206,33 @@ function handleContactSubmit(event) {
         .then(function(response) {
             console.log('✅ SUCCESS!', response.status, response.text);
             
-            successAlert.classList.add('show');
+            // Réinitialiser le formulaire
             event.target.reset();
             
+            // Réactiver le bouton
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Send ✉️';
+            submitBtn.textContent = 'Envoyer ✉️';
             
-            setTimeout(() => {
-                successAlert.classList.remove('show');
-            }, 5000);
+            // Afficher l'alerte en plein écran
+            showFullscreenAlert(
+                'Message envoyé avec succès !<br>Nous vous contacterons bientôt.',
+                true,
+                5000
+            );
             
         }, function(error) {
             console.error('❌ FAILED...', error);
             
-            errorAlert.classList.add('show');
-            
+            // Réactiver le bouton
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Send ✉️';
+            submitBtn.textContent = 'Envoyer ✉️';
             
-            setTimeout(() => {
-                errorAlert.classList.remove('show');
-            }, 5000);
+            // Afficher l'alerte d'erreur en plein écran
+            showFullscreenAlert(
+                'Une erreur s\'est produite.<br>Veuillez réessayer.',
+                false,
+                5000
+            );
         });
 }
 
@@ -205,14 +241,9 @@ function handleRecruitmentSubmit(event) {
     event.preventDefault();
     
     const submitBtn = document.getElementById('recruitmentSubmitBtn');
-    const successAlert = document.getElementById('recruitmentSuccessAlert');
-    const errorAlert = document.getElementById('recruitmentErrorAlert');
-    
-    successAlert.classList.remove('show');
-    errorAlert.classList.remove('show');
     
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting... ⏳';
+    submitBtn.textContent = 'Soumission en cours... ⏳';
 
     // Get form data
     const formData = new FormData(event.target);
@@ -223,22 +254,29 @@ function handleRecruitmentSubmit(event) {
         interests.push(checkbox.value);
     });
 
+    // Vérifier qu'au moins un intérêt est sélectionné
+    if (interests.length === 0) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Soumettre la candidature 🚀';
+        showFullscreenAlert(
+            'Veuillez sélectionner au moins un domaine d\'intérêt.',
+            false,
+            5000
+        );
+        return;
+    }
+
     // Prepare data for Google Sheets
     const recruitmentData = {
-        // Basic Information
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         email: formData.get('email'),
         phone: formData.get('phone'),
         class: formData.get('class'),
         birthDate: formData.get('birthDate'),
-        
-        // Motivation
         whyChoose: formData.get('whyChoose'),
         whatBring: formData.get('whatBring'),
         interests: interests.join(', '),
-        
-        // Audiovisual Production Questions
         avInterest: formData.get('avInterest'),
         experience: formData.get('experience'),
         software: formData.get('software'),
@@ -254,9 +292,7 @@ function handleRecruitmentSubmit(event) {
         trendAwareness: formData.get('trendAwareness'),
         eventsParticipation: formData.get('eventsParticipation'),
         uniqueness: formData.get('uniqueness'),
-        
-        // Submission Info
-        submissionDate: new Date().toLocaleString('en-US', { 
+        submissionDate: new Date().toLocaleString('fr-FR', { 
             timeZone: 'Africa/Tunis',
             year: 'numeric',
             month: '2-digit',
@@ -266,8 +302,6 @@ function handleRecruitmentSubmit(event) {
         })
     };
 
-    // Send to Google Sheets via Web App
-    // IMPORTANT: Replace this URL with your actual Google Apps Script Web App URL
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMRJ5YGl_f0ARtcmWIC1TVC2STUAxIyz2by6ftYrWko2MP0Dofv7zBdHx-M5F2cnc1DA/exec';
     
     fetch(GOOGLE_SCRIPT_URL, {
@@ -281,27 +315,33 @@ function handleRecruitmentSubmit(event) {
     .then(() => {
         console.log('✅ Application submitted successfully!');
         
-        successAlert.classList.add('show');
+        // Réinitialiser le formulaire
         event.target.reset();
         
+        // Réactiver le bouton
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Application 🚀';
+        submitBtn.textContent = 'Soumettre la candidature 🚀';
         
-        setTimeout(() => {
-            successAlert.classList.remove('show');
-        }, 5000);
+        // Afficher l'alerte en plein écran
+        showFullscreenAlert(
+            'Candidature soumise avec succès !<br>Nous vous contacterons bientôt.<br>Merci pour votre intérêt.',
+            true,
+            6000
+        );
     })
     .catch((error) => {
         console.error('❌ Submission failed:', error);
         
-        errorAlert.classList.add('show');
-        
+        // Réactiver le bouton
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Application 🚀';
+        submitBtn.textContent = 'Soumettre la candidature 🚀';
         
-        setTimeout(() => {
-            errorAlert.classList.remove('show');
-        }, 5000);
+        // Afficher l'alerte d'erreur en plein écran
+        showFullscreenAlert(
+            'Une erreur s\'est produite.<br>Veuillez réessayer plus tard.',
+            false,
+            5000
+        );
     });
 }
 
