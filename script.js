@@ -1,6 +1,12 @@
 // Initialize EmailJS
+const EMAILJS_CONFIG = {
+    PUBLIC_KEY: "CDN3p6l0QoJvNWnI0",
+    SERVICE_ID: "service_qeyag2o",
+    TEMPLATE_ID: "template_smzv04f"
+};
+
 (function() {
-    emailjs.init("CDN3p6l0QoJvNWnI0");
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 })();
 
 // Hero Slider
@@ -202,7 +208,11 @@ function handleContactSubmit(event) {
         message: document.getElementById("message").value
     };
 
-    emailjs.send('service_qeyag2o', 'template_smzv04f', params)
+    emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        params
+    )
         .then(function(response) {
             console.log('✅ SUCCESS!', response.status, response.text);
             

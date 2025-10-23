@@ -303,8 +303,12 @@ nav {
 .btn-primary {
     background: white;
     color: var(--primary-red);
+    
 }
-
+.recruitment-form-container .btn-primary {
+    cursor: not-allowed;
+    transform: none;
+}
 .btn-primary:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -315,6 +319,8 @@ nav {
     cursor: not-allowed;
     transform: none;
 }
+
+
 
 .btn-secondary {
     background: transparent;
